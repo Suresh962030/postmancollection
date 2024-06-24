@@ -32,13 +32,17 @@ jobs:
       - name: Install Node
       - uses: actions/checkout@v4
         with:
-           node-version : 17.x
+           node-version : '17.x'
            
-    # Install N
-           
-         
-        
-     
+    # Install newman and reporter
+      - name: Install newman and reprter
+        run: |
+         npm install -g newman
+         npm install -g newman-reporter-htmlextra
+
+    # Run Collection 
+      - name: Install newman and reprter
+        run: |
        
 
       # Runs a single command using the runners shell
