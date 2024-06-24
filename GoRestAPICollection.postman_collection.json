@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "94165486-784c-4f85-8c6d-dc0c09cde93f",
+		"name": "GoRestAPICollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17420440",
+		"_collection_link": "https://orange-shadow-979385.postman.co/workspace/SDETWorkSpace~fea6d8d6-472a-4e54-9e49-8fe9f219cb43/collection/17420440-94165486-784c-4f85-8c6d-dc0c09cde93f?action=share&source=collection_link&creator=17420440"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"userid_colle\", jsonData.id);",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"pm.environment.set(\"orderid_env\",jsonData.orderId);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var schema =",
+							"{",
+							"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"name\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"gender\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"email\": {",
+							"      \"type\": \"string\"",
+							"    },",
+							"    \"status\": {",
+							"      \"type\": \"string\"",
+							"    }",
+							"  },",
+							"  \"required\": [",
+							"    \"name\",",
+							"    \"gender\",",
+							"    \"email\",",
+							"    \"status\"",
+							"  ]",
+							"}",
+							"",
+							"pm.test('schema is valid ',  function()",
+							"{",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+							"});",
+							"",
+							"// Test to check the response body structure and values",
+							"pm.test(\"Response body structure and values are valid\", function () {",
+							"    var responseJSON = pm.response.json();",
+							"    pm.expect(responseJSON).to.be.an('object').and.to.have.property('id');",
+							"    pm.expect(responseJSON).to.have.property('name').that.is.a('string');",
+							"    pm.expect(responseJSON).to.have.property('email').that.is.a('string');",
+							"    pm.expect(responseJSON).to.have.property('gender').that.is.a('string');",
+							"    pm.expect(responseJSON).to.have.property('status').that.is.a('string');",
+							"});",
+							"",
+							"// Test to validate the email format",
+							"pm.test(\"Email format is valid\", function () {",
+							"    var responseJSON = pm.response.json();",
+							"    pm.expect(responseJSON.email).to.match(/\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b/);",
+							"});",
+							"pm.test(\"Response has the required fields - id, name, email, gender, and status\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData).to.have.property('id');",
+							"  pm.expect(responseData).to.have.property('name');",
+							"  pm.expect(responseData).to.have.property('email');",
+							"  pm.expect(responseData).to.have.property('gender');",
+							"  pm.expect(responseData).to.have.property('status');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Name is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Gender is either 'male' or 'female'\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.have.property('gender').that.is.oneOf(['male', 'female']);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status is one of the predefined values\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.status).to.be.oneOf([\"active\", \"inactive\", \"pending\"]);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Id is a positive integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.id).to.be.a('number').and.to.be.above(0, \"Id should be a positive integer\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random= Math.random().toString(36).substring(2);",
+							"",
+							"var useremail = \"suresh\"+random+\"@gmail.com\";",
+							"",
+							"var username = \"suresh\"+random;",
+							"",
+							"pm.environment.set(\"usremail\", useremail);",
+							"pm.environment.set(\"usrname\", username);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "96acc02fb5e62d8873e41046e8b88e1cb99f8dce3fedc0ecb32542c7ef5ee5e6",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\"name\":\"{{usrname}}\", \n\"gender\":\"male\", \n\"email\":\"{{usremail}}\", \n\"status\":\"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// validating json fields in the response",
+							"pm.test(\"validating json response fields \", () =>",
+							"{",
+							"  var jsonData=  pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"userid_colle\"));",
+							"    console.log(\"ID vlaue is \",jsonData.id)",
+							"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"usremail\"));",
+							"     pm.expect(jsonData.name).to.eql(pm.environment.get(\"usrname\"));",
+							"}",
+							");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_colle}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_colle}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random= Math.random().toString(36).substring(2);",
+							"",
+							"var useremail = \"suresh\"+random+\"@gmail.com\";",
+							"",
+							"var username = \"suresh\"+random;",
+							"",
+							"pm.collectionVariables.set(\"usremail\", useremail);",
+							"pm.collectionVariables.set(\"usrname\", username);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\"name\":\"{{usrname}}\", \n\"gender\":\"male\", \n\"email\":\"{{usremail}}\", \n\"status\":\"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{userid_colle}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_colle}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "96acc02fb5e62d8873e41046e8b88e1cb99f8dce3fedc0ecb32542c7ef5ee5e6",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userid_colle",
+			"value": ""
+		},
+		{
+			"key": "usrname",
+			"value": ""
+		},
+		{
+			"key": "usremail",
+			"value": ""
+		},
+		{
+			"key": "userid_env",
+			"value": "",
+			"disabled": true
+		}
+	]
+}
