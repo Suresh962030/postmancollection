@@ -23,14 +23,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create dir
         run: |
          mkdir SampleArtifact1
          
     # Install NodeJS
       - name: Install Node
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
            node-version : '17.x'
            
@@ -43,11 +43,11 @@ jobs:
     # Run Collection 
       - name: Run Collection
         run: |
-          newman run "GOREST.postman_environment.json" -e "GoRestAPICollection.postman_collection.json" -r htmlextra --reporter-htmlextra-export SampleArtifact1/report.html                       
+          newman run "GoRestAPICollection.postman_collection.json" -e "GOREST.postman_environment.json" -r htmlextra --reporter-htmlextra-export SampleArtifact1/report.html                       
 
       # Publish the Report
       - name: Publish Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
          name : Reports
          path : SampleArtifact1
