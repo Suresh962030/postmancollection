@@ -30,12 +30,12 @@ jobs:
          
     # Install NodeJS
       - name: Install Node
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
            node-version : '17.x'
            
     # Install newman and reporter
-      - name: Install newman and reprter
+      - name: Install newman 
         run: |
          npm install -g newman
          npm install -g newman-reporter-htmlextra
