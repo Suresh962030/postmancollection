@@ -43,8 +43,7 @@ jobs:
     # Run Collection 
       - name: Run Collection
         run: |
-          newman run "GOREST.postman_environment.json" -e "GoRestAPICollection.postman_collection.json" -r htmlextra --reporter-
-          htmlextra-export SampleArtifact/report.html             
+          newman run "GOREST.postman_environment.json" -e "GoRestAPICollection.postman_collection.json" -r htmlextra --reporter-htmlextra-export SampleArtifact/report.html                       
 
       # Publish the Report
       - name: Publish Report
